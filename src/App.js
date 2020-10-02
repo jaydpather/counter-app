@@ -5,11 +5,15 @@ import Counters from "./components/counters";
 class App extends Component {
   state = {
     counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 }
+      { id: 1, value: 0, price: 199, subtotal: 0 },
+      { id: 2, value: 0, price: 299, subtotal: 0 },
+      { id: 3, value: 0, price: 399, subtotal: 0 },
+      { id: 4, value: 0, price: 499, subtotal: 0 }
     ]
+  };
+
+  calculateSubtotal = (counter) => {
+    return counter.price * counter.value;
   };
 
   handleIncrement = counter => {
@@ -17,6 +21,7 @@ class App extends Component {
     const index = counters.indexOf(counter);
     counters[index] = { ...counters[index] };
     counters[index].value++;
+    counters[index].subtotal = this.calculateSubtotal(counters[index]);
     this.setState({ counters });
   };
 
@@ -25,12 +30,15 @@ class App extends Component {
     const index = counters.indexOf(counter);
     counters[index] = { ...counters[index] };
     counters[index].value--;
+    counters[index].subtotal = this.calculateSubtotal(counters[index]);
     this.setState({ counters });
   };
 
   handleReset = () => {
+    //alert("handleReset");
     const counters = this.state.counters.map(c => {
       c.value = 0;
+      c.subtotal = 0;
       return c;
     });
     this.setState({ counters });
